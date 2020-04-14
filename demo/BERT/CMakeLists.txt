@@ -33,7 +33,7 @@ set(BERT_LIBS
 include_directories(
     ../../include
     ../../samples/common
-    /usr/local/cuda-10.1/targets/x86_64-linux/include
+    /usr/local/cuda-10.2/targets/x86_64-linux/include
     ./
     ./plugins
     ./layers
@@ -44,7 +44,7 @@ include_directories(
     )
 
 link_directories(
-    /usr/local/cuda-10.1/targets/x86_64-linux/lib
+    /usr/local/cuda-10.2/targets/x86_64-linux/lib
     /tensorrt/lib
     )
 
@@ -72,10 +72,19 @@ add_executable(sample_bert
     sampleBERT.cpp
     )
 
+add_executable(sample_bert_model
+    sampleBERT-model.cpp
+    )
+
 target_compile_features(sample_bert PUBLIC cxx_std_11)
+target_compile_features(sample_bert_model PUBLIC cxx_std_11)
 
 target_link_libraries(sample_bert 
     common
     bert_plugins
     )
 
+target_link_libraries(sample_bert_model 
+    common
+    bert_plugins
+    )
