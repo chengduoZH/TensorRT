@@ -53,12 +53,15 @@ def del_flags_by_key(FLAGS, keys_list):
     for keys in keys_list:
         FLAGS.__delattr__(keys)
 
-site.addsitedir('dle/TensorFlow/LanguageModeling/BERT')
+import sys
+sys.path.append("/workspace2/TensorRT/demo/BERT/dle/TensorFlow/LanguageModeling/BERT")
+
+site.addsitedir('/workspace2/TensorRT/demo/BERT/dle/TensorFlow/LanguageModeling/BERT')
 
 # we need to remove all default flags set by importing the Example code below
 # we save the original keys to diff against
 keys_orig = set([k for k in tf.flags.FLAGS._flags()])
-import run_squad
+#import run_squad
 import modeling
 keys_imported = [k for k in tf.flags.FLAGS._flags() if k not in keys_orig]
 del_flags_by_key(tf.flags.FLAGS, keys_imported)
