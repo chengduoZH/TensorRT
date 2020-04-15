@@ -33,7 +33,7 @@ set(BERT_LIBS
 include_directories(
     ../../include
     ../../samples/common
-    /usr/local/cuda-10.0/targets/x86_64-linux/include
+    /usr/local/cuda-10.2/targets/x86_64-linux/include
     ./
     ./plugins
     ./layers
@@ -44,7 +44,7 @@ include_directories(
     )
 
 link_directories(
-    /usr/local/cuda-10.0/targets/x86_64-linux/lib
+    /usr/local/cuda-10.2/targets/x86_64-linux/lib
     /tensorrt/lib
     )
 
