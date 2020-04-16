@@ -133,7 +133,6 @@ void loadWeights(const std::string& wts_path, WeightMap& weightMap)
         tmp.type = DataType::kFLOAT;
         tmp.values = data;
         tmp.count = param_size;
-
         weightMap[name] = tmp;
     }
 
