@@ -19,6 +19,7 @@ import struct
 import argparse
 import re
 import torch
+import numpy
 
 parser = argparse.ArgumentParser(description='TensorFlow to TensorRT Weight Dumper')
 
@@ -59,6 +60,9 @@ with open(out_fn, 'wb') as output_file:
         if "embeddings" in outname:
             outname = outname.replace("_weight", "")
         outname = outname.replace("weight", "kernel")
+
+        if "kernel" in outname:
+           tensor = numpy.transpose(tensor)
 
         shape = tensor.shape
         flat_tensor = tensor.flatten()
