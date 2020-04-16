@@ -20,7 +20,6 @@ import argparse
 import re
 import torch
 
-
 parser = argparse.ArgumentParser(description='TensorFlow to TensorRT Weight Dumper')
 
 parser.add_argument('-m', '--model', required=True, help='The checkpoint file basename, example basename(model.ckpt-766908.data-00000-of-00001) -> model.ckpt-766908')
@@ -36,34 +35,36 @@ print( "Buffer type is hard-coded to 0 (float), i.e. 4 bytes per coefficient")
 inputbase = opt.model
 outputbase = opt.output
 
-reader = pyTF.NewCheckpointReader(inputbase)
-tensor_dict = reader.get_variable_to_shape_map()
+model_params = torch.load(inputbase)
+
 out_fn = outputbase + ".weights"
 with open(out_fn, 'wb') as output_file:
-
-    # there might be training-related variables in the checkpoint that can be discarded
-    param_names = [key for key in sorted(tensor_dict) if 'adam' not in key and 'global_step' not in key and 'pooler' not in key]
-
+    param_names = model_params.keys()
     count = len(param_names) 
     print(count)
 
     output_file.write('{}\n'.format(count).encode('ASCII'))
     for pn in param_names:
-        toks = pn.lower().split('/')
+        tensor = model_params[pn].numpy()
+        toks = pn.lower().split('.')
         if 'encoder' in pn:
-            assert('layer' in pn)
-            l = (re.findall('\d+',pn))[0]
+            assert ('layer' in pn)
+            l = (re.findall('\d+', pn))[0]
             outname = 'l{}_'.format(l) + '_'.join(toks[3:])
         else:
-            outname = '_'.join(toks)
+            outname = "bert_" + '_'.join(toks)
+        if "layernorm" in outname:
+            outname = outname.replace("weight", "beta")
+            outname = outname.replace("bias", "gamma")
+        if "embeddings" in outname:
+            outname = outname.replace("_weight", "")
+        outname = outname.replace("weight", "kernel")
 
-        tensor = reader.get_tensor(pn)
         shape = tensor.shape
         flat_tensor = tensor.flatten()
         shape_str = '{} '.format(len(shape)) + ' '.join([str(d) for d in shape])
 
         output_file.write('{} 0 {} '.format(outname, shape_str).encode('ASCII'))
         output_file.write(flat_tensor.tobytes())
-        output_file.write('\n'.encode('ASCII'));
-        print('Orig.name:', pn,'TRT name:', outname, 'shape:' , shape_str)
+        output_file.write('\n'.encode('ASCII'))
 
