@@ -73,7 +73,7 @@ add_executable(sample_bert
     )
 
 add_executable(sample_bert_model
-    sampleBERT_model.cpp
+    sampleBERT-model.cpp
     )
 
 target_compile_features(sample_bert PUBLIC cxx_std_11)
