@@ -86,6 +86,7 @@ void doInference(IExecutionContext& context, const std::map<std::string, nvinfer
     cudaProfilerStart();
     for (int it = 0; it < numRuns; it++)
     {
+        std::cout << "iteration: " << it <<std::endl; 
         CHECK(cudaEventRecord(startsTotal[it], stream));
         copyToDeviceBindings(engine, buffers, batchSize, inCfg, stream);
         CHECK(cudaEventRecord(startsCompute[it], stream));

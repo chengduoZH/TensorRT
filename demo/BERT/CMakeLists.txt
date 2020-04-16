@@ -72,11 +72,19 @@ add_executable(sample_bert
     sampleBERT.cpp
     )
 
+add_executable(sample_bert_model
+    sampleBERT_model.cpp
+    )
+
 target_compile_features(sample_bert PUBLIC cxx_std_11)
+target_compile_features(sample_bert_model PUBLIC cxx_std_11)
 
 target_link_libraries(sample_bert 
     common
     bert_plugins
     )
 
-
+target_link_libraries(sample_bert_model 
+    common
+    bert_plugins
+    )

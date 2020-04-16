@@ -1,1 +1,5 @@
 build/
+demo/BERT/bert_base_384.engine2
+demo/BERT/obj/
+demo/BERT/sampleBERT_model.cpp
+demo/BERT/torch_model.pkl
