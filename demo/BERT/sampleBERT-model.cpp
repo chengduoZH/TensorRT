@@ -47,7 +47,6 @@ Args gArgs;
 
 const std::string gSampleName = "TensorRT.sample_bert";
 const std::string TEST_INPUT_NAME = "test_inputs.weights_int32";
-const std::string TEST_OUTPUT_NAME = "test_outputs.weights";
 const std::string BERT_WEIGHTS_NAME = "bert.weights";
 const int NUM_RUNS = 10;
 
@@ -294,10 +293,8 @@ int main(int argc, char *argv[]) {
   const int B = inputDims[0].d[0];
 
   const std::string outputName("bert_output_last");
-  // const std::string embeddingOutputName("embeddings_output2");
   std::map <std::string, std::vector<float>> outCfg = {
             make_pair(outputName, std::vector<float>(B * S * 768)),
-            // make_pair(embeddingOutputName, std::vector<float>(B * S * 768 + 1)),
   };
 
   cudaStream_t stream;
