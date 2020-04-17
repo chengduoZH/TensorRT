@@ -73,29 +73,8 @@ __global__ void embLayerNormKernel(int ld, const int* inputIds, const int* token
         const T rldval = rld * val;
         threadData = pairSum(threadData, kvp<T>(rldval, rldval * val));
     }
-    if (threadIdx.x == 0) {
-        T mean = 0, var = 0;
-        for (int it = threadIdx.x; it < ld; ++it)
-        {
-            T val = output[outOffset + it];
-            mean += val;
-            var += val * val;
-        }
-        mean /= ld;
-        var /= ld;
-        var = rsqrtf(var - mean * mean + T(1e-6f));
-
-        for (int i = threadIdx.x; i < ld; i++)
-        {
-            const int idx = outOffset + i;
-            const T val = output[idx];
-            const T g(gamma[i]);
-            const T b(beta[i]);
-            output[idx] = g * (val - mean) * var + b;
-        }
-    }
     // 3. layer norm on the sum
-    // layerNorm<T, TPB>(threadData, ld, outOffset, beta, gamma, output);
+    layerNorm<T, TPB>(threadData, ld, outOffset, beta, gamma, output);
 }
 
 template <typename T>

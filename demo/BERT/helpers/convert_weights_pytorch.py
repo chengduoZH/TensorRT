@@ -55,8 +55,8 @@ with open(out_fn, 'wb') as output_file:
         else:
             outname = "bert_" + '_'.join(toks)
         if "layernorm" in outname:
-            outname = outname.replace("weight", "beta")
-            outname = outname.replace("bias", "gamma")
+            outname = outname.replace("weight", "gamma")
+            outname = outname.replace("bias", "beta")
         if "embeddings" in outname:
             outname = outname.replace("_weight", "")
         outname = outname.replace("weight", "kernel")

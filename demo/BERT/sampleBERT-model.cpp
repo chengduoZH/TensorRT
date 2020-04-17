@@ -161,7 +161,7 @@ nvinfer1::ICudaEngine *fromAPIToModel(nvinfer1::IBuilder *builder, const int num
 
   auto embPlugin = EmbLayerNormPlugin("embeddings", gArgs.runInFp16, wBeta, wGamma, wWordEmb, wPosEmb, wTokEmb);
   IPluginV2Layer *embLayer = network->addPluginV2(inputs, 3, embPlugin);
-  setOutputName(embLayer, "embeddings_", "output");
+  setOutputName(embLayer, "embeddings_", "output2");
 
   ITensor *embeddings = embLayer->getOutput(0);
   ITensor *maskIdx = embLayer->getOutput(1);
@@ -294,10 +294,10 @@ int main(int argc, char *argv[]) {
   const int B = inputDims[0].d[0];
 
   const std::string outputName("bert_output_last");
-  const std::string embeddingOutputName("embeddings_output");
+  const std::string embeddingOutputName("embeddings_output2");
   std::map <std::string, std::vector<float>> outCfg = {
             make_pair(outputName, std::vector<float>(B * S * 768)),
-            make_pair(embeddingOutputName, std::vector<float>(B * S * 768)),
+            make_pair(embeddingOutputName, std::vector<float>(B * S * 768 + 1)),
   };
 
   cudaStream_t stream;
