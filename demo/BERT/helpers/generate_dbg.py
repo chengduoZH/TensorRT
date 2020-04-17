@@ -18,20 +18,31 @@
 import argparse
 import os
 import numpy as np
+from os.path import join as jp
+TEST_INPUT_FN = 'test_inputs.weights_int32'
 
+parser = argparse.ArgumentParser(description='DATA to TensorRT Weight ')
 parser.add_argument('-s', '--seqlen', type=int, required=True, help='The sequence length used to generate the tf record dataset')
 parser.add_argument('-b', '--batchsize',type=int, required=True, help='The sequence length used to generate the tf record dataset')
+parser.add_argument('-o', '--output', required=True, help='The directory to dump the data to. The script will create an input file, {}.'.format(TEST_INPUT_FN))
 
 opt = parser.parse_args()
+outputbase = opt.output
+out_fn = jp(outputbase,  TEST_INPUT_FN)
+if not os.path.exists(outputbase):
+    print("Output path does not exist. Creating.")
+    os.makedirs(outputbase)
+
+
 slen = opt.seqlen
 B = opt.batchsize
-test_word_ids = np.random.randint(0, bert_config.vocab_size, (B, slen), dtype=np.int32)
+test_word_ids = np.random.randint(0, 21128, (B, slen), dtype=np.int32)
 test_input_mask = np.ones((B,slen), dtype=np.int32)
-test_segment_ids = np.random.randint(0, bert_config.type_vocab_size, (B, slen), dtype=np.int32)
+test_segment_ids = np.random.randint(0, 1, (B, slen), dtype=np.int32)
 
 fd = {'input_ids:0' : test_word_ids,
-        'input_mask:0':test_input_mask,
-        'segment_ids:0':test_segment_ids}
+      'input_mask:0':test_input_mask,
+      'segment_ids:0':test_segment_ids}
 
 with open(out_fn, 'wb') as output_file:
     count = 3

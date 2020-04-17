@@ -171,7 +171,7 @@ nvinfer1::ICudaEngine *fromAPIToModel(nvinfer1::IBuilder *builder, const int num
   ILayer *bertLayer = bertModel(config, weightMap, network, embeddings, maskIdx);
   setOutputName(bertLayer, "bert_", "output_last");
   network->markOutput(*bertLayer->getOutput(0));
-  network->markOutput(*embeddings);
+  // network->markOutput(*embeddings);
 
   // Build the engine
   std::cout << "build engine ... " << std::endl;
@@ -294,10 +294,10 @@ int main(int argc, char *argv[]) {
   const int B = inputDims[0].d[0];
 
   const std::string outputName("bert_output_last");
-  const std::string embeddingOutputName("embeddings_output2");
+  // const std::string embeddingOutputName("embeddings_output2");
   std::map <std::string, std::vector<float>> outCfg = {
             make_pair(outputName, std::vector<float>(B * S * 768)),
-            make_pair(embeddingOutputName, std::vector<float>(B * S * 768 + 1)),
+            // make_pair(embeddingOutputName, std::vector<float>(B * S * 768 + 1)),
   };
 
   cudaStream_t stream;
@@ -312,27 +312,16 @@ int main(int argc, char *argv[]) {
   engine->destroy();
   runtime->destroy();
 
-  {
-    auto &output = outCfg[outputName];
-    double result = std::accumulate(output.begin(), output.end(), 0.0f);
-    std::cout << "result " << result << std::endl;
-    for(int i = 0; i < 100; ++i){
-      std::cout << output[i] << " ";
-    }
-    std::cout << std::endl;
-  }
+  // {
+  //   auto &output = outCfg[outputName];
+  //   double result = std::accumulate(output.begin(), output.end(), 0.0f);
+  //   std::cout << "result " << result << std::endl;
+  //   for(int i = 0; i < 100; ++i){
+  //     std::cout << output[i] << " ";
+  //   }
+  //   std::cout << std::endl;
+  // }
   
-  {
-    auto &output = outCfg[embeddingOutputName];
-    double result = std::accumulate(output.begin(), output.end(), 0.0f);
-    std::cout << "result " << result << std::endl;
-    for(int i = 0; i < 100; ++i){
-      std::cout << output[i] << " ";
-    }
-    std::cout << std::endl;
-  }
-
-
   // destroy the engine
   bool pass{true};
 

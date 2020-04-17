@@ -1,0 +1,16 @@
+python generate_dbg.py -b 1  -s 10 -o ./1_10/
+python generate_dbg.py -b 1  -s 20 -o ./1_20/
+python generate_dbg.py -b 1  -s 40 -o ./1_40/
+python generate_dbg.py -b 1  -s 60 -o ./1_60/
+python generate_dbg.py -b 1  -s 80 -o ./1_80/
+python generate_dbg.py -b 1  -s 100 -o ./1_100/
+python generate_dbg.py -b 1  -s 200 -o ./1_200/
+python generate_dbg.py -b 1  -s 500 -o ./1_500/
+python generate_dbg.py -b 2  -s 10 -o ./2_10/
+python generate_dbg.py -b 2  -s 20 -o ./2_20/
+python generate_dbg.py -b 2  -s 40 -o ./2_40/
+python generate_dbg.py -b 2  -s 60 -o ./2_60/
+python generate_dbg.py -b 2  -s 80 -o ./2_80/
+python generate_dbg.py -b 2  -s 100 -o ./2_100/
+python generate_dbg.py -b 2  -s 200 -o ./2_200/
+python generate_dbg.py -b 2  -s 500 -o ./2_500/

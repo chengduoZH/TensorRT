@@ -120,10 +120,10 @@ void loadWeights(const std::string& wts_path, WeightMap& weightMap)
         loadRow(input, name, data, param_size, d);
         assert(data);
         assert(param_size);
-        for(int i = 0; i < 24; ++i){
-            std::cout << data[i] << " ";
-        }
-        std::cout << std::endl;
+        // for(int i = 0; i < 24; ++i){
+        //     std::cout << data[i] << " ";
+        // }
+        // std::cout << std::endl;
         // Need to be careful here. This is highly dependent on the TF implementation.
         // The TF squad output does not use a fully connected layer but a matmul op with a transpose, which names the
         // output as squad_output_weights
@@ -206,10 +206,10 @@ void loadInputs(const std::string& weightsPath, int& Bmax, int& S, std::vector<n
         loadRow(input, name, data, nbWeights, d);
         assert(data);
         assert(nbWeights);
-        for(int i = 0;i < 24; i++){
-            std::cout << data[i] << " ";
-        }
-        std::cout << std::endl;
+        // for(int i = 0;i < 24; i++){
+        //     std::cout << data[i] << " ";
+        // }
+        // std::cout << std::endl;
         Bmax = std::max(Bmax, d.d[0]); // find the largest batch size in the dataset
 
         if (S == 0)
