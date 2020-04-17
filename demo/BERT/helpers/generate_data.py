@@ -44,4 +44,3 @@ with open(out_fn, 'wb') as output_file:
         output_file.write("{} 3 {} ".format(outname, shape_str).encode('ASCII'))
         output_file.write(v.tobytes())
         output_file.write("\n".encode('ASCII'))
-        
