@@ -161,8 +161,7 @@ nvinfer1::ICudaEngine *fromAPIToModel(nvinfer1::IBuilder *builder, const int num
 
   auto embPlugin = EmbLayerNormPlugin("embeddings", gArgs.runInFp16, wBeta, wGamma, wWordEmb, wPosEmb, wTokEmb);
   IPluginV2Layer *embLayer = network->addPluginV2(inputs, 3, embPlugin);
-  setOutputName(embLayer, "embeddings_", "output1", 0);
-  // setOutputName(embLayer, "embeddings_", "output2", 1);
+  setOutputName(embLayer, "embeddings_", "output");
 
   ITensor *embeddings = embLayer->getOutput(0);
   ITensor *maskIdx = embLayer->getOutput(1);
@@ -173,7 +172,6 @@ nvinfer1::ICudaEngine *fromAPIToModel(nvinfer1::IBuilder *builder, const int num
   setOutputName(bertLayer, "bert_", "output_last");
   network->markOutput(*bertLayer->getOutput(0));
   network->markOutput(*embeddings);
-  network->markOutput(*maskIdx);
 
   // Build the engine
   std::cout << "build engine ... " << std::endl;
@@ -296,12 +294,10 @@ int main(int argc, char *argv[]) {
   const int B = inputDims[0].d[0];
 
   const std::string outputName("bert_output_last");
-  const std::string embeddingOutputName("embeddings_output1");
-  const std::string embeddingOutputName2("embeddings_output2");
+  const std::string embeddingOutputName("embeddings_output");
   std::map <std::string, std::vector<float>> outCfg = {
             make_pair(outputName, std::vector<float>(B * S * 768)),
             make_pair(embeddingOutputName, std::vector<float>(B * S * 768)),
-            // make_pair(embeddingOutputName2, std::vector<float>(B * S * 768)),
   };
 
   cudaStream_t stream;
@@ -335,15 +331,7 @@ int main(int argc, char *argv[]) {
     }
     std::cout << std::endl;
   }
-  // {
-  //   auto &output = outCfg[embeddingOutputName2];
-  //   double result = std::accumulate(output.begin(), output.end(), 0.0f);
-  //   std::cout << "result " << result << std::endl;
-  //   for(int i = 0; i < 100; ++i){
-  //     std::cout << output[i] << " ";
-  //   }
-  //   std::cout << std::endl;
-  // }
+
 
   // destroy the engine
   bool pass{true};
