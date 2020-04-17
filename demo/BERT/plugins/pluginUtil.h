@@ -172,7 +172,7 @@ __device__ inline void layerNorm(
     if (threadIdx.x == 0)
     {
         mu = sumKV.key;
-        rsigma = rsqrt(sumKV.value - mu * mu);
+        rsigma = rsqrt(sumKV.value - mu * mu + T(1e-12f));
     }
     __syncthreads();
 
