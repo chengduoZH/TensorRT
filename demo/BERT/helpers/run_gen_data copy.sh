@@ -6,3 +6,5 @@ python generate_dbg.py -b 20 -s 80 -o ./20_80/
 python generate_dbg.py -b 20 -s 100 -o ./20_100/
 python generate_dbg.py -b 20 -s 200 -o ./20_200/
 python generate_dbg.py -b 20 -s 500 -o ./20_500/
+python generate_dbg.py -b 20 -s 300 -o ./20_100/
+python generate_dbg.py -b 20 -s 400 -o ./20_200/

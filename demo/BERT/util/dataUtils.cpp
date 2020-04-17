@@ -191,6 +191,7 @@ void loadInputs(const std::string& weightsPath, int& Bmax, int& S, std::vector<n
     int32_t count;
     input >> count;
     cout << "Number of buffers: " << count << endl;
+    cout << "weightsPath: " << weightsPath << endl;
     assert(count % 3 == 0);
     S = 0;
     Bmax = 0;
@@ -206,10 +207,10 @@ void loadInputs(const std::string& weightsPath, int& Bmax, int& S, std::vector<n
         loadRow(input, name, data, nbWeights, d);
         assert(data);
         assert(nbWeights);
-        // for(int i = 0;i < 24; i++){
-        //     std::cout << data[i] << " ";
-        // }
-        // std::cout << std::endl;
+        for(int i = 0;i < d.d[1]; i++){
+            std::cout << data[i] << " ";
+        }
+        std::cout << std::endl;
         Bmax = std::max(Bmax, d.d[0]); // find the largest batch size in the dataset
 
         if (S == 0)

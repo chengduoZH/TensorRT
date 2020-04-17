@@ -312,15 +312,15 @@ int main(int argc, char *argv[]) {
   engine->destroy();
   runtime->destroy();
 
-  // {
-  //   auto &output = outCfg[outputName];
-  //   double result = std::accumulate(output.begin(), output.end(), 0.0f);
-  //   std::cout << "result " << result << std::endl;
-  //   for(int i = 0; i < 100; ++i){
-  //     std::cout << output[i] << " ";
-  //   }
-  //   std::cout << std::endl;
-  // }
+  {
+    auto &output = outCfg[outputName];
+    double result = std::accumulate(output.begin(), output.end(), 0.0f);
+    std::cout << "result " << result << std::endl;
+    for(int i = 0; i < 100; ++i){
+      std::cout << output[i] << " ";
+    }
+    std::cout << std::endl;
+  }
   
   // destroy the engine
   bool pass{true};
