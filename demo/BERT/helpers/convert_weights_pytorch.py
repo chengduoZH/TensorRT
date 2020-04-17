@@ -30,7 +30,7 @@ def convert_to_trt_weight(outputbase, model_params):
 
         output_file.write('{}\n'.format(count).encode('ASCII'))
         for pn in param_names:
-            tensor = model_params[pn].numpy()
+            tensor = model_params[pn].detach().numpy()
             toks = pn.lower().split('.')
             if 'encoder' in pn:
                 assert ('layer' in pn)
@@ -73,6 +73,7 @@ if __name__ == "__main__":
           "[space-sep. shape list: d_1 d_2 ... d_D] <d_1 * d_2 * ... * d_D * sizeof(type) bytes of data>")
     print("Buffer type is hard-coded to 0 (float), i.e. 4 bytes per coefficient")
 
-    model_params = BertModel.from_pretrained("bert-base-uncased")
-
+    model = BertModel.from_pretrained("bert-base-uncased")
+    model.eval()
+    model_params = {k:v for k, v in model.named_parameters()}
     convert_to_trt_weight(opt.output, model_params)
