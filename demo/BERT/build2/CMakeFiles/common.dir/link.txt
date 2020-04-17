@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC   -shared -Wl,-soname,libcommon.so -o libcommon.so CMakeFiles/common.dir/workspace/TensorRT/samples/common/logger.cpp.o CMakeFiles/common.dir/util/dataUtils.cpp.o  -L/usr/local/cuda-10.2/targets/x86_64-linux/lib  -L/tensorrt/lib -Wl,-rpath,/usr/local/cuda-10.2/targets/x86_64-linux/lib:/tensorrt/lib -lcudart -lcublas -lnvinfer -lpthread -lz 
